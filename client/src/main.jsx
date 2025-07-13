@@ -9,6 +9,7 @@ import MovieDetails from './pages/MovieDetails.jsx'
 import SeatLayout from './pages/SeatLayout.jsx'
 import MyBookings from './pages/MyBookings.jsx'
 import Favourite from './pages/Favourite.jsx'
+import AuthProvider from './auth/AuthProvider.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 )
