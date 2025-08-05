@@ -10,17 +10,33 @@ import SeatLayout from './pages/SeatLayout.jsx'
 import MyBookings from './pages/MyBookings.jsx'
 import Favourite from './pages/Favourite.jsx'
 import AuthProvider from './auth/AuthProvider.jsx'
+import AdminLayout from './pages/admin/AdminLayout.jsx'
+import AddShows from './pages/admin/AddShows.jsx'
+import ListShows from './pages/admin/ListShows.jsx'
+import ListBookings from './pages/admin/ListBookings.jsx'
+import Dashboard from './pages/admin/Dashboard.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<Layout />}>
-      <Route path='' element={<Home />} />
-      <Route path='/movies' element={<Movies />} />
-      <Route path='movies/:id' element={<MovieDetails />} />
-      <Route path='/movies/:id/:date' element={<SeatLayout />} />
-      <Route path='/my-bookings' element={<MyBookings />} />
-      <Route path='/favourite' element={<Favourite />} />
-    </Route>
+    <>
+      {/* User routes */}
+      <Route path='/' element={<Layout />}>
+        <Route path='' element={<Home />} />
+        <Route path='/movies' element={<Movies />} />
+        <Route path='movies/:id' element={<MovieDetails />} />
+        <Route path='/movies/:id/:date' element={<SeatLayout />} />
+        <Route path='/my-bookings' element={<MyBookings />} />
+        <Route path='/favourite' element={<Favourite />} />
+      </Route>
+
+      {/* Admin Routes */}
+      <Route path='/admin' element={<AdminLayout />}>
+        <Route index element={<Dashboard />} />
+        <Route path='add-shows' element={<AddShows />} />
+        <Route path='list-shows' element={<ListShows />} />
+        <Route path='list-bookings' element={<ListBookings />} />
+      </Route>
+    </>
   )
 )
 
