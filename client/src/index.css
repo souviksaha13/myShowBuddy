@@ -21,3 +21,13 @@ body{
   scrollbar-width: none;
 
 }
+
+/* To remove the up and down keys in the input fields (for number) */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
