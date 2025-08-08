@@ -11,11 +11,12 @@ const syncUserCreation = inngest.createFunction(
     {id: 'sync-userCreation-from-clerk'},
     {event: 'clerk/user.created'},
     async ({ event }) => {
-        const { id, first_name, last_name, email_addresses, image_url } = event.data
+        const { id, username, first_name, last_name, email_addresses, image_url } = event.data
         const userData = {
             // all the data types are visible in clerk -> webhooks -> testing -> user.created
             _id: id,
             email: email_addresses[0].email_address,
+            username: username,
             name: first_name + ' ' + last_name,
             image: image_url,
         }
@@ -41,11 +42,12 @@ const syncUserUpdation = inngest.createFunction(
     {id: 'sync-userUpdation-from-clerk'},
     {event: 'clerk/user.updated'},
     async ({ event }) => {
-        const { id, first_name, last_name, email_addresses, image_url } = event.data
+        const { id, first_name, username, last_name, email_addresses, image_url } = event.data
         const userData = {
             // all the data types are visible in clerk -> webhooks -> testing -> user.created
             _id: id,
             email: email_addresses[0].email_address,
+            username: username,
             name: first_name + ' ' + last_name,
             image: image_url,
         }
