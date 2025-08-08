@@ -3,8 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv'
 import connectDB from './configs/db.js';
 import { authMiddleware } from './auth/auth.js';
-import { serve } from "inngest/express";
-import { functions, inngest } from './inngest/index.js';
+import apiRouter from './routes/index.js';
+
 
 const app = express();
 const PORT = 3000;
@@ -20,7 +20,7 @@ await connectDB()
 
 // API Routes
 app.get('/', (req, res) => res.send('Server is live'))
-app.use('/api/inngest', serve({ client: inngest, functions}))
+app.use('/api', apiRouter)
 
 
 app.listen(PORT, () => console.log(`Server is listening at http://localhost:${PORT}`))
