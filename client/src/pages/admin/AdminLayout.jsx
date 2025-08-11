@@ -3,9 +3,14 @@ import { Toaster } from 'react-hot-toast'
 import AdminNavbar from '../../components/admin/AdminNavbar'
 import { Outlet } from 'react-router-dom'
 import AdminSidebar from '../../components/admin/AdminSidebar'
+import { useAppContext } from '../../context/AppContext'
+import Signin from '../../auth/Signin'
 
 const AdminLayout = () => {
-  return (
+
+  const { user } = useAppContext()
+
+  return user ? (
     <>
       <Toaster />
       <AdminNavbar />
@@ -16,7 +21,7 @@ const AdminLayout = () => {
         </div>
       </div>
     </>
-  )
+  ) : <Signin />
 }
 
 export default AdminLayout
