@@ -5,6 +5,7 @@ import Loading from '../../components/Loading'
 import { CheckIcon, DeleteIcon, StarIcon } from 'lucide-react'
 import { kConverter } from '../../lib/kConverter'
 import { useAppContext } from '../../context/AppContext'
+import toast from 'react-hot-toast'
 
 const AddShows = () => {
 
@@ -16,15 +17,18 @@ const AddShows = () => {
     const [dateTimeSelection, setDateTimeSelection] = useState({})
     const [dateTimeInput, setDateTimeInput] = useState("")
     const [showPrice, setShowPrice] = useState("")
+    const [addingShow, setAddingShow] = useState(false)
 
     const fetchNowPlayingMovies = async () => {
         try {
             const tmdbToken = await getToken()
-            console.log(tmdbToken)
+
+            // const value = await axios.get('/api/show/now-playing')
+            // console.log(value)
             const { data } = await axios.get('/api/show/now-playing', {
                 headers: { Authorization: `Bearer ${tmdbToken}`}
             })
-
+            console.log(data)
             if(data.success) {
                 setNowPlayingMovies(data.movies)
             }
@@ -59,6 +63,39 @@ const AddShows = () => {
         })
     }
 
+    const handleSubmit = async () => {
+        try {
+            setAddingShow(true)
+
+            if(!selectedMovie || Object.keys(dateTimeSelection).length === 0 || !showPrice) {
+                return toast("Missing required fields")
+            }
+
+            const showsInput = Object.entries(dateTimeSelection).map(([date, time]) => ({date, time}))
+
+            const payload = {
+                movieId: selectedMovie,
+                showsInput,
+                showPrice: Number(showPrice)
+            }
+
+            const { data } = await axios.post('/api/show/add', payload, {headers: { Authorization: `Bearer ${await getToken()}`}})
+
+            if(data.success) {
+                toast.success(data.message)
+                setSelectedMovie(null)
+                setDateTimeSelection({})
+                setShowPrice("")
+            } else {
+                toast.error(data.message)
+            }
+        } catch (error) {
+            console.error('Submission error', error)
+        }
+
+        setAddingShow(false)
+    }
+
     useEffect(() => {
         if(user) {
             fetchNowPlayingMovies()
@@ -74,8 +111,8 @@ const AddShows = () => {
         <div className='overflow-x-auto pb-4'>
             <div className='group flex flex-wrap gap-4 mt-4 w-max'>
                 {nowPlayingMovies.map((movie) => (
-                    <div key={movie._id}
-                        onClick={() => setSelectedMovie(movie._id)}
+                    <div key={movie.id}
+                        onClick={() => setSelectedMovie(movie.id)}
                         className={`relative max-w-40 cursor-pointer group-hover:not-hover:opacity-40 hover:-translate-y-1 transition duration-300`}
                     >
                         <div className='relative rounded-lg overflow-hidden'>
@@ -88,7 +125,7 @@ const AddShows = () => {
                                 <p className='text-gray-300'>{kConverter(movie.vote_count)} Votes</p>
                             </div>
                         </div>
-                        {selectedMovie === movie._id && (
+                        {selectedMovie === movie.id && (
                             <div className='absolute top-2 right-2 flex items-center justify-center bg-primary h-6 w-6 rounded-md'>
                                 <CheckIcon className='w-4 h-4 text-white' strokeWidth={2.5} />
                             </div>
@@ -141,7 +178,10 @@ const AddShows = () => {
         )}
 
         {/* Adding the Show -> Button */}
-        <button className='bg-primary text-white px-8 py-2 mt-6 rounded hover:bg-primary/90 transition-all cursor-pointer active:scale-95'>
+        <button
+            onClick={handleSubmit} disabled={addingShow}
+            className='bg-primary text-white px-8 py-2 mt-6 rounded hover:bg-primary/90 transition-all cursor-pointer active:scale-95'
+        >
             Add Show
         </button>
     </>
