@@ -13,8 +13,12 @@ import ListShows from './pages/admin/ListShows.jsx';
 import ListBookings from './pages/admin/ListBookings.jsx';
 import Dashboard from './pages/admin/Dashboard.jsx';
 import { useAppContext } from './context/AppContext.jsx';
+import Signin from './auth/Signin.jsx';
 
 const App = () => {
+
+  const { user } = useAppContext()
+
   return (
     <Routes>
       {/* User routes */}
@@ -28,7 +32,7 @@ const App = () => {
       </Route>
 
       {/* Admin routes */}
-      <Route path="/admin" element={<AdminLayout />}>
+      <Route path="/admin" element={user ? <AdminLayout /> : <Signin /> }>
         <Route index element={<Dashboard />} />
         <Route path="add-shows" element={<AddShows />} />
         <Route path="list-shows" element={<ListShows />} />

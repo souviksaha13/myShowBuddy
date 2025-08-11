@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import AdminNavbar from '../../components/admin/AdminNavbar'
 import { Outlet } from 'react-router-dom'
 import AdminSidebar from '../../components/admin/AdminSidebar'
 import { useAppContext } from '../../context/AppContext'
-import Signin from '../../auth/Signin'
+import Loading from '../../components/Loading'
 
 const AdminLayout = () => {
 
-  const { user } = useAppContext()
+  const { isAdmin, fetchIsAdmin, } = useAppContext()
 
-  return user ? (
+  useEffect(() => {
+    fetchIsAdmin()
+  }, [])
+
+  return isAdmin ? (
     <>
       <Toaster />
       <AdminNavbar />
@@ -21,7 +25,7 @@ const AdminLayout = () => {
         </div>
       </div>
     </>
-  ) : <Signin />
+  ) : <Loading />
 }
 
 export default AdminLayout
