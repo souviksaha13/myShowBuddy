@@ -33,7 +33,7 @@ const AddShows = () => {
                 setNowPlayingMovies(data.movies)
             }
         } catch (error) {
-            console.error(`Error fetching movies: `, error)
+            toast.error(`Error fetching movies: `, error)
         }
     }
 
