@@ -31,11 +31,9 @@ export const getNowPlayingMovies = async (req, res) => {
 
 export const addShowToDB = async (req, res) => {
     try {
-        console.log("function reached here1")
         const { movieId, showsInput, showPrice } = req.body 
-        console.log("function reached here2")
         let movie = await Movie.findById(movieId)
-        console.log("function reached here3")
+        console.log("function reached here1")
         if(!movie) {
             // Fetch movie details and credits from TMDB API
             const [movieDetailsResponse, movieCreditsResponse] = await Promise.all([
