@@ -5,9 +5,8 @@ import Movie from "../models/Movie.js"
 // API controller function to get user bookings
 export const getUserBookings = async (req, res) => {
     try {
-        const user = req.auth().userId
-
-        const bookings = await Booking.find({ user }).populate({
+        const { userId } = await req.auth()
+        const bookings = await Booking.find({ userId }).populate({
             path: "show",
             populate: {path: "movie"}
         }).sort({ createdAt: -1 })
