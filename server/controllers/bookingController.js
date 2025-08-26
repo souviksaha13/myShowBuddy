@@ -61,12 +61,11 @@ export const createBooking = async (req, res) => {
 
 
 // Get Occupied Seats
-export const getOccupiedSeats = async () => {
+export const getOccupiedSeats = async (req, res) => {
     try {
         const { showId } = req.params
-        const { showData } = await Show.findById(showId)
+        const showData = await Show.findById(showId)
         const occupiedSeats = Object.keys(showData.occupiedSeats)
-
         res.json({ success: true, occupiedSeats })
     } catch (error) {
         console.error(error)
