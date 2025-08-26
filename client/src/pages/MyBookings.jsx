@@ -46,7 +46,7 @@ const MyBookings = () => {
 
       {/* Display all the bookings */}
       {bookings.map((item, index) => (
-        <div key={index} className='flex flex-col md:flex-row justify-between bg-primary/8 border border-primary/20 rounded-lg mt-4 p-2 max-w-3xl'>
+        <div key={index} className='flex flex-col md:flex-row justify-between bg-primary/8 border border-primary/20 rounded-3xl mt-4 p-2 max-w-4xl'>
           <div className='flex flex-col md:flex-row'>
             {/* Movie Poster */}
             <img src={image_base_url + item.show.movie.poster_path} alt='' className='md:max-w-45 aspect-video h-auto object-cover object-bottom rounded' />
