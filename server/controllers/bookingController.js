@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import Show from '../models/Show.js'
 import Booking from '../models/Booking.js'
 import { useId } from 'react'
+import { createPaymentSession } from '../Services/paymentService.js'
 
 // Function to check availability of selected seats for a movie
 const checkSeatsAvailability = async (showId, selectedSeats) => {
@@ -50,9 +51,10 @@ export const createBooking = async (req, res) => {
         showData.markModified('occupiedSeats')
         await showData.save()
 
-        // Stripe Gateway Initialization
+        // Payment Gateway Initialization
+        const sessionUrl = await createPaymentSession({origin, showData, booking})
 
-        res.json({ success: true, message: "Booked Successfully"})
+        res.json({ success: true, url: sessionUrl})
     } catch (error) {
         console.error(error)
         res.json({ success: false, message: error.message })
