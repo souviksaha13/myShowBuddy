@@ -14,6 +14,7 @@ import ListBookings from './pages/admin/ListBookings.jsx';
 import Dashboard from './pages/admin/Dashboard.jsx';
 import { useAppContext } from './context/AppContext.jsx';
 import Signin from './auth/Signin.jsx';
+import Loading from './components/Loading.jsx';
 
 const App = () => {
 
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="movies/:id" element={<MovieDetails />} />
         <Route path="movies/:id/:date" element={<SeatLayout />} />
         <Route path="my-bookings" element={<MyBookings />} />
+        <Route path='loading/:nextUrl' element={<Loading />} />
         <Route path="favourite" element={<Favourite />} />
       </Route>
 
