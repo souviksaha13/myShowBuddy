@@ -4,11 +4,15 @@ import dotenv from 'dotenv'
 import connectDB from './configs/db.js';
 import { authMiddleware } from './auth/auth.js';
 import apiRouter from './routes/index.js';
+import { stripeWebhooks } from './Services/stripeWebHooks.js';
 
 
 const app = express();
 const PORT = 3000;
 dotenv.config()
+
+// Stripe Webhooks Route
+app.use('/api/stripe', express.raw({type: 'application/json'}), stripeWebhooks)
 
 // Middleware
 app.use(express.json());
