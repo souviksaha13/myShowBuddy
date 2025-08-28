@@ -2,9 +2,15 @@ import { Inngest } from "inngest";
 import User from "../models/User.js";
 import Booking from "../models/Booking.js";
 import Show from "../models/Show.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // Create a client to send and receive events
-export const inngest = new Inngest({ id: "movie-ticket-booking" });
+export const inngest = new Inngest({ 
+    id: "movie-ticket-booking",
+    eventKey: process.env.INNGEST_EVENT_KEY,
+});
 
 // Create all inngest functions here
 
@@ -62,7 +68,7 @@ const syncUserUpdation = inngest.createFunction(
 // Inngest function to cancel booking and release seats of shows after 15 mins of booking created if payment is not made
 const releaseSeatsAndDeleteBooking = inngest.createFunction(
     {id: 'release-seats-delete-booking'},
-    {event: "app/checkpayment"},
+    {event: 'app/checkpayment'},
     async ({ event, step }) => {
         const fifteenMinsLater = new Date(Date.now() + 15*60*1000)
         await step.sleepUntil('wait-for-15-mins', fifteenMinsLater);
