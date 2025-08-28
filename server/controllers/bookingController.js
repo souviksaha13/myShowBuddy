@@ -4,6 +4,7 @@ import Show from '../models/Show.js'
 import Booking from '../models/Booking.js'
 import { useId } from 'react'
 import { createPaymentSession } from '../Services/paymentService.js'
+import { inngest } from '../inngest/index.js'
 
 // Function to check availability of selected seats for a movie
 const checkSeatsAvailability = async (showId, selectedSeats) => {
@@ -54,6 +55,13 @@ export const createBooking = async (req, res) => {
         // Payment Gateway Initialization
         const sessionUrl = await createPaymentSession({origin, showData, booking})
 
+        // Run Inngest Scheduler function to check payment status after 15mins
+        await inngest.send({
+            name: "app/checkpayment",
+            data: {
+                bookingId: booking._id.toString()
+            }
+        })
         res.json({ success: true, url: sessionUrl})
     } catch (error) {
         console.error(error)
