@@ -2,7 +2,6 @@ import axios from 'axios'
 import dotenv from 'dotenv'
 import Show from '../models/Show.js'
 import Booking from '../models/Booking.js'
-import { useId } from 'react'
 import { createPaymentSession } from '../Services/paymentService.js'
 import { inngest } from '../inngest/index.js'
 
