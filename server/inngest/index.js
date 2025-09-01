@@ -100,10 +100,26 @@ const sendBookingConfirmationEmail = inngest.createFunction(
     async ({ event, step }) => {
         const { bookingId } = event.data;
 
+        if(!bookingId) {
+            throw new Error(`No bookingId found`);
+        }
+
         const booking = await Booking.findById(bookingId).populate({
             path: 'show',
             populate: {path: 'movie', model: "Movie"}
         }).populate('user')
+
+        if (!booking) {
+            throw new Error(`Booking not found for ID: ${bookingId}`);
+        }
+
+        if (!booking.user) {
+            throw new Error(`User not found for booking ID: ${bookingId}`);
+        }
+
+        if(!booking.user.email) {
+            throw new Error(`Email id not found for booking ID: ${bookingId}`)
+        }
         
         await sendEmail({
             to: booking.user.email,
