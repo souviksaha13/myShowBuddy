@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { dummyDashboardData } from '../../assets/assets'
+import { useEffect, useState } from 'react'
 import { ChartLineIcon, IndianRupee, PlayCircleIcon, StarIcon, UsersIcon } from 'lucide-react'
 import Loading from '../../components/Loading'
 import AdminTitle from '../../components/admin/AdminTitle'

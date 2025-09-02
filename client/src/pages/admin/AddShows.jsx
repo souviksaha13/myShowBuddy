@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import AdminTitle from '../../components/admin/AdminTitle'
-import { dummyShowsData } from '../../assets/assets'
 import Loading from '../../components/Loading'
 import { CheckIcon, DeleteIcon, StarIcon } from 'lucide-react'
 import { kConverter } from '../../lib/kConverter'
